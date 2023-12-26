@@ -11,13 +11,15 @@ enableEmoji = true
 [markup.highlight]
 noClasses = false
 
+staticDir = ['static']
+
 [params]
 author = "Mustafa Khaled"
 # license = '<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA-4.0</a>'
 description = "Mustafa Khaled's personal website"
 keywords = "blog,developer,personal"
 info = ["Senior Software Engineer", "Android"]
-avatarURL = "/mustafa.png"
+avatarURL = "static/mustafa.png"
 #gravatar = "john.doe@example.com"
 dateFormat = "January 2, 2006"
 since = 2023
