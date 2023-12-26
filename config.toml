@@ -11,7 +11,7 @@ enableEmoji = true
 [markup.highlight]
 noClasses = false
 
-staticDir = ['static']
+staticDir = "static"
 
 [params]
 author = "Mustafa Khaled"
