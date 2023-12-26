@@ -16,7 +16,7 @@ author = "Mustafa Khaled"
 # license = '<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA-4.0</a>'
 description = "Mustafa Khaled's personal website"
 keywords = "blog,developer,personal"
-info = ["Full Stack DevOps", "Magician"]
+info = ["Senior Software Engineer", "Android"]
 avatarURL = "images/mustafa-khaled.png"
 #gravatar = "john.doe@example.com"
 dateFormat = "January 2, 2006"
