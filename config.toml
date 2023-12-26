@@ -1,5 +1,5 @@
-baseURL = "https://mustafakhaled.github.io/mustafakhaled.github.io/"
-title = "johndoe"
+baseURL = "https://mustafakhaled.github.io/"
+title = "Mustafa Khaled"
 theme = "hugo-coder"
 languageCode = "en"
 defaultContentLanguage = "en"
