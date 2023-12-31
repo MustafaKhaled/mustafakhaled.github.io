@@ -23,13 +23,16 @@ Before going deeply into the coroutines cancellation, we should go through impor
 
 **2.1. Job**
 
-Upon creating a _launch_ or async block, it returns a _Job_ instance. This instance represents the coroutine and manages its lifecycle.
+Upon creating a launch or async block, it returns a  Job  instance. This instance represents the coroutine and manages its lifecycle.
 
-Any _Job_ has states that reflect its lifecycle as follows:
+![](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*2JRDcmyhLikrNsVDQVDNGg.png)
 
-*   _isActive_: any Job by default in the active state, _isActive = true_
-*   _isCompleted_: After the coroutine completes its process, _isCompleted = true_
-*   _isCancelled_: If the coroutine is cancelled, _isCanceled = true_
+Any  Job  has states that reflect its lifecycle as follows:
+
+*    isActive : any Job by default in the active state,  isActive = true 
+*    isCompleted : After the coroutine completes its process,  isCompleted = true 
+*    isCancelled : If the coroutine is cancelled,  isCanceled = true 
+
 
 ```
 The job is Active: true  
@@ -38,32 +41,32 @@ Job is cancelled: true
 Job is completed: true
 ```
 
-Note: we added the _job.isCompleted outside coroutineScope, so we are sure the coroutine completed its work._
+Note: we added the  job.isCompleted outside coroutineScope, so we are sure the coroutine completed its work. 
 
 **2.2. Coroutine Context**
 
 It’s a set of elements that describe the coroutine and how it works, it is **essential** to create a coroutine/scope it contains:
 
-*   **_Job_**: to manage the lifecycle of a coroutine
-*   **_CoroutineName_**: by default CoroutineName value is “_coroutine_”, but you can override it
-*   **_Dispatcher_**: it determines which thread would run the coroutine
-*   **_CoroutineExceptionHandler_**: handle uncaught exceptions in the coroutine
+*   ** Job **: to manage the lifecycle of a coroutine
+*   ** CoroutineName **: by default CoroutineName value is “ coroutine ”, but you can override it
+*   ** Dispatcher **: it determines which thread would run the coroutine
+*   ** CoroutineExceptionHandler **: handle uncaught exceptions in the coroutine
 
 **2.3. Coroutine Scope**
 
-To create any coroutine with _launch_ or _async_ you need a _CoroutineScope._ Check the following definition:
+To create any coroutine with  launch  or  async  you need a  CoroutineScope.  Check the following definition:
 
 CoroutineScope definition
 
-To Create a _CoroutineScope_, we should pass a _CoroutineContext_ as a parameter. If you didn’t pass _Job to CoroutinesContext_, by default, it has _Job()_ instance for you.
+To Create a  CoroutineScope , we should pass a  CoroutineContext  as a parameter. If you didn’t pass  Job to CoroutinesContext , by default, it has  Job()  instance for you.
 
-**3\. Cancellation**
+**3. Cancellation**
 
 CoroutineScope can create multi coroutines which make a parents-children hierarchy. Furthermore, it keeps track of all coroutines created and can cancel them.
 
 Parent-child hierarachy
 
-When a child coroutine is cancelled, it **doesn’t affect** the other coroutines. Cancelled here means to call _cancel()_ method for a job, which would throw a _CancellationException._
+When a child coroutine is cancelled, it **doesn’t affect** the other coroutines. Cancelled here means to call  cancel()  method for a job, which would throw a  CancellationException. 
 
 ```
 Job1 is Active false  
@@ -73,7 +76,7 @@ Job2 is Active true
 
 If the scope job is canceled, it will automatically cancel all the children’s coroutines, and it makes sense.
 
-**4\. Exception**
+**4. Exception**
 
 What if a child’s job throws an exception while doing its job?!
 
@@ -90,7 +93,7 @@ Parent scope job is Active false
 
 We can make the child’s job throws an exception and fails independently. It wouldn’t affect other children’s jobs or their parents.
 
-Using **_SupervisorJob(),_** we can use this type of job instead of a normal **_Job()._** This would make work as we planned.
+Using ** SupervisorJob(), ** we can use this type of job instead of a normal ** Job(). ** This would make work as we planned.
 
 ```
 Job1 is Active false  
@@ -99,12 +102,12 @@ Job3 is Active true
 Parent scope job is Active true
 ```
 
-So, if you need to cancel all coroutines hierarchy when a single coroutine failed, as they are dependent on each other you should use a normal **_Job()_** instance.
+So, if you need to cancel all coroutines hierarchy when a single coroutine failed, as they are dependent on each other you should use a normal ** Job() ** instance.
 
-If there is no dependency on the children’s Jobs, use **_SupervisorJob()_** to survive other coroutines.
+If there is no dependency on the children’s Jobs, use ** SupervisorJob() ** to survive other coroutines.
 
-**5\. Conclusion**
+**5. Conclusion**
 
-In this article, we covered the basics of Job lifecycle, CoroutineContext, and CoroutineScopes. Furthermore, we covered coroutines cancellation and exception. We also covered the difference between **_Job()_** and **_SupervisorJob()_**_._
+In this article, we covered the basics of Job lifecycle, CoroutineContext, and CoroutineScopes. Furthermore, we covered coroutines cancellation and exception. We also covered the difference between ** Job() ** and ** SupervisorJob() ** . 
 
 To know more about coroutines cancellation, check the [official documentation](https://kotlinlang.org/docs/cancellation-and-timeouts.html).
