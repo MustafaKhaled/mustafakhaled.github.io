@@ -33,6 +33,8 @@ Any  Job  has states that reflect its lifecycle as follows:
 *    isCompleted : After the coroutine completes its process,  isCompleted = true 
 *    isCancelled : If the coroutine is cancelled,  isCanceled = true 
 
+{% gist db5acfe745bb6b9d6cd1fa18625dd482 %}
+
 
 ```
 The job is Active: true  
@@ -56,7 +58,9 @@ It’s a set of elements that describe the coroutine and how it works, it is **e
 
 To create any coroutine with  launch  or  async  you need a  CoroutineScope.  Check the following definition:
 
-CoroutineScope definition
+![](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*uEkp0GYWygxT69EtdRPdyA.png)
+*CoroutineScope definition*
+
 
 To Create a  CoroutineScope , we should pass a  CoroutineContext  as a parameter. If you didn’t pass  Job to CoroutinesContext , by default, it has  Job()  instance for you.
 
