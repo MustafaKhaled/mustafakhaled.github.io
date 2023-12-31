@@ -11,7 +11,7 @@ enableEmoji = true
 [markup.highlight]
 noClasses = false
 
-staticDir = ['static']
+staticDir = "static"
 
 [params]
 author = "Mustafa Khaled"
@@ -19,7 +19,7 @@ author = "Mustafa Khaled"
 description = "Mustafa Khaled's personal website"
 keywords = "blog,developer,personal"
 info = ["Senior Software Engineer", "Android"]
-avatarURL = "static/mustafa.png"
+avatarURL = "images/avatar.png"
 #gravatar = "john.doe@example.com"
 dateFormat = "January 2, 2006"
 since = 2023
@@ -169,8 +169,6 @@ type = "application/rss+xml"
 
 [languages.en]
 languageName = ":uk:"
-staticDir = ['static']
-
 
 [[languages.en.menu.main]]
 name = "About"
