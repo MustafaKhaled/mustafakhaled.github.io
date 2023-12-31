@@ -33,7 +33,7 @@ Any  Job  has states that reflect its lifecycle as follows:
 *    isCompleted : After the coroutine completes its process,  isCompleted = true 
 *    isCancelled : If the coroutine is cancelled,  isCanceled = true 
 
-{% gist db5acfe745bb6b9d6cd1fa18625dd482 %}
+<script src="https://gist.github.com/MustafaKhaled/db5acfe745bb6b9d6cd1fa18625dd482.js"></script>
 
 
 ```
