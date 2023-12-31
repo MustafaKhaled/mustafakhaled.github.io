@@ -169,6 +169,8 @@ type = "application/rss+xml"
 
 [languages.en]
 languageName = ":uk:"
+staticDir = ['static']
+
 
 [[languages.en.menu.main]]
 name = "About"
