@@ -33,8 +33,22 @@ Any  Job  has states that reflect its lifecycle as follows:
 *    isCompleted : After the coroutine completes its process,  isCompleted = true 
 *    isCancelled : If the coroutine is cancelled,  isCanceled = true 
 
-```html
-<script src="https://gist.github.com/MustafaKhaled/db5acfe745bb6b9d6cd1fa18625dd482.js"></script>
+```kotlim
+fun main() = runBlocking {
+    var job: Job? = null
+    runBlocking {
+        job = launch {
+            println("The job is Active: ${job?.isActive}")
+            // doing staff
+            delay(2000)
+        }
+        delay(1000)
+        job?.cancel()
+        println("Job is cancelled ...")
+        println("Job is cancelled: ${job?.isCancelled}")
+    }
+    println("Job is completed: ${job?.isCompleted}")
+}
 
 
 
