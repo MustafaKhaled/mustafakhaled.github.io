@@ -76,3 +76,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build  # Adjust to your build output directory
+          cname: mustafakhaled.me  # Add your custom domain here
+        
