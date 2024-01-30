@@ -3,7 +3,7 @@ title: "Understanding and applying CI/CD pipeline for Android developers ðŸš€ â€
 date: 2020-01-29T16:33:50+01:00
 draft: false
 
-slug: "Understanding-and-applying-CICD-pipeline-for-Android-developers" 
+slug: "Understanding-and-applying-CICD-pipeline-for-Android-developers-part2" 
 tags: [Kotlin, CI/CD, GitLab]
 categories: []
 ---
