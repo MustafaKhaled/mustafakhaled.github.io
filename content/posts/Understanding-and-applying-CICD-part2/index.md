@@ -13,12 +13,12 @@ Understanding and applying CI/CD pipeline for Android developers 🚀 — Part 2
 
 ![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*mrsEGa3SvOr14dYCk4e2hQ.jpeg)
 
-In [part 1](https://mustafakhaled.me/posts/understanding-and-applying-cicd-pipeline-for-android-developers-part1/) we managed to configure GitLab and Fastlane. Following next, we will configure our Continuous Deployment channel.
+In [part 1](https://www.mustafakhaled.me/posts/understanding-and-applying-cicd-pipeline-for-android-developers-part1/) we managed to configure GitLab and Fastlane. Following next, we will configure our Continuous Deployment channel.
 
 Step 3 : Configure FirebaseAppDistribution (Our CD Channel)
 -----------------------------------------------------------
 
-As we mentioned in [part 1](https://mustafakhaled.me/posts/understanding-and-applying-cicd-pipeline-for-android-developers-part1/), FirebaseAppDistribution is a tool provided by Firebase where you can upload your beta .apk files.
+As we mentioned in [part 1](https://www.mustafakhaled.me/posts/understanding-and-applying-cicd-pipeline-for-android-developers-part1/), FirebaseAppDistribution is a tool provided by Firebase where you can upload your beta .apk files.
 
 You can find many posts that use Slack channels as their CD channel. In my opinion, this isn’t a perfect channel because it’s plan limitation. Their free plan has storage of 4 GB for all channels within the workspace, which may limit your App APK files to be uploaded.
 
