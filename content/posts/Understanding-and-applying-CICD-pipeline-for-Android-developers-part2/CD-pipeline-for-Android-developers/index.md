@@ -69,13 +69,13 @@ a. Install Fastlane in your machine.
 
 After installation, check everything is works fine by running:
 
-```
+```sh
 $ fastlane env
 ```
 
 b. Now, we can start Fastlane for our Android project. Just open the terminal tab in the android studio. Run the following:
 
-```
+```sh
 $ fastlane init
 ```
 

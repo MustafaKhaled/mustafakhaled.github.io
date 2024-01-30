@@ -38,7 +38,7 @@ With the command-line interface we can make use of firebase’s commands to help
 
 **c. Check Firebase is installed correctly.**
 
-```
+```sh
 $ firebase --version
 ```
 
@@ -47,7 +47,7 @@ Step 4 : Fastfile
 
 Now, it’s time to write the steps that Fastlane would follow to upload our beta deployments to FirebaseAppDistruibution.
 
-```
+```yaml
 desc "Submit a new beta build to Firebase App Distribution"  
     lane : distribute do  
         build\_android\_app(  
@@ -71,7 +71,7 @@ For example, we have a lane called **distribute** that would build a debug APK, 
 *   Open your terminal
 *   run the following command
 
-```
+```sh
 $ firebase login:ci
 ```
 
@@ -87,7 +87,7 @@ Now you can see the token generated for firebase CLI 🎉🚀
 
 Next, let’s run our new distribute lane from Fastlane with the following code.
 
-```
+```sh
 $ fastlane distribute
 ```
 
@@ -100,7 +100,7 @@ Fortunately, the error is very descriptive. Fastlane doesn’t know what **fireb
 To fix the above error, we should add firebase\_app\_distribution as a dependency for Fastlane (through **Gemfile**).  
 So from the Android Studio terminal, we can add the firebase\_app\_distribution plugin with:
 
-```
+```sh
 $ fastlane add\_plugin firebase\_app\_distribution
 ```
 
@@ -108,7 +108,7 @@ $ fastlane add\_plugin firebase\_app\_distribution
 
 Now, everything is up and running, give another try
 
-```
+```sh
 $ fastlane distribute
 ```
 
@@ -132,7 +132,7 @@ As we mentioned earlier, our pipeline consists of **3 stages**
 *   test
 *   deploy
 
-```
+```yaml
 image:     mustafakhaled/android-fastlane-firebase:1.0  
   
 stages:  
@@ -169,7 +169,7 @@ deploy\_internal:
 
 Maybe seems like weird syntax, but don’t worry we will go through this file in detail 😄😁.
 
-```
+```yaml
 image:     mustafakhaled/android-fastlane-firebase:1.0
 ```
 
@@ -185,7 +185,7 @@ This image contains basic tools that serve our main goal. it contains:
 
 If you think about it, you would find this environment is like your machine environment where you were able to build and send your app to FirebaseAppDistrubution.
 
-```
+```yaml
 stages:  
   - build  
   - test  
@@ -194,7 +194,7 @@ stages:
 
 In this part, we just define the stages of the pipeline.
 
-```
+```yaml
 lintDebug:  
   stage: build  
   script:  
@@ -203,7 +203,7 @@ lintDebug:
 
 This job is run on the build stage, it will run the **lint** check which helps find a poorly structured code that can impact the reliability and efficiency of your Android apps and make your code harder to maintain.
 
-```
+```yaml
 assembleDebug:  
   stage: build  
   script:  
@@ -215,7 +215,7 @@ assembleDebug:
 
 This job is also on the build stage. It's responsible for building debug APK. The **artifacts** are a list of files and directories to attach to a job on success.
 
-```
+```yaml
 debugTests:  
   stage: test  
   script:  
@@ -224,7 +224,7 @@ debugTests:
 
 This job is on the test stage. It 's responsible for run unit tests if found in your projects.
 
-```
+```yaml
 stage: deploy  
   
   script:  
@@ -235,7 +235,7 @@ This job is on the deploy stage. It’s responsible to deploy your beta deployme
 
 **Enhancement**: We want this pipeline to run only if I pushed to the **master** branch, not all branches. This could be done in gitlab-ci.yml by modifying the stage of deploy.
 
-```
+```yaml
 stage: deploy  
   
   only:  
