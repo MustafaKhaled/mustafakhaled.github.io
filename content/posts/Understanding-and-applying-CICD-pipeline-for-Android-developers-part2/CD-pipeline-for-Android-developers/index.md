@@ -1,5 +1,5 @@
 ---
-title: "Understanding and applying CI/CD pipeline for Android developers 🚀 — Part 1"
+title: "Understanding and applying CI/CD pipeline for Android developers 🚀 — Part 2"
 date: 2020-01-29T16:33:50+01:00
 draft: false
 
@@ -8,88 +8,263 @@ tags: [Kotlin, CI/CD, GitLab]
 categories: []
 ---
 
-Understanding and applying CI/CD pipeline for Android developers 🚀 — Part 1
+Understanding and applying CI/CD pipeline for Android developers 🚀 — Part 2
 ====================================
 
 ![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*mrsEGa3SvOr14dYCk4e2hQ.jpeg)
 
-As an Android Engineer, think about how much time you waste in deploying an APK for someone to test. ⌛️
+In [part 1](https://www.mustafakhaled.me/posts/understanding-and-applying-cicd-pipeline-for-android-developers-part2/understanding-and-applying-cicd-pipeline-for-android-developers/) we managed to configure GitLab and Fastlane. Following next, we will configure our Continuous Deployment channel.
 
-It may be done in many steps, compile your project, run unit test, start generating your .apk file, then upload it to a third party (e.g. firebase distribution, diawi, etc ..). After that, you have to notify the testers that your build is ready for testing.
+Step 3 : Configure FirebaseAppDistribution (Our CD Channel)
+-----------------------------------------------------------
 
-![](https://miro.medium.com/v2/resize:fit:640/format:webp/1*BX20IpPuOSvE0MMcQVct-Q.gif)
+As we mentioned in [part 1](https://medium.com/@mustafakhaled290/devops-understanding-and-applying-ci-cd-pipeline-for-android-developers-part-1-cdbeab424781), FirebaseAppDistribution is a tool provided by Firebase where you can upload your beta .apk files.
 
-A tiring repetitive process that wastes a set amount of time every single time you need to do it.
+You can find many posts that use Slack channels as their CD channel. In my opinion, this isn’t a perfect channel because it’s plan limitation. Their free plan has storage of 4 GB for all channels within the workspace, which may limit your App APK files to be uploaded.
 
-With CI/CD, we can automate the process and solve the time-wasting problem. 🎉🎉
+So, what makes FirebaseAppDistribution distinctive? 🤔  
+With FirebaseAppDistribution you can send your beta deployment with a direct E-mail, by mentioning Emails of testers. You can also add release notes to your deployments. Last but not least, a great dashboard for versions uploaded to FirebaseAppDistribution.
 
-**So, what is CI/CD in a nutshell?**
+![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*hO94Rp_FJkaoaVskp3Rb9g.png)
 
-> Continuous integration (CI) and continuous delivery (CD) embody a culture, set of operating principles, and collection of practices that enable application development teams to deliver code changes more frequently and reliably. The implementation is also known as the CI/CD pipeline.
+To setup FirebaseAppDistribution we can do so in 3 steps:
 
-Talking a little bit more about my solution. It consists of **4 main components**:
+**a. Create an Android Firebase application.**  
+Firebase documentation is outstanding 🤩🤩, So make sure you follow [it](https://firebase.google.com/docs/android/setup/).  
+Also, don’t forget to **Get Started** with FirebaseAppDistribution.
 
-*   [**GitLab**](https://about.gitlab.com): It plays dual rule, version control, and CI/CD platform.
-*   [**Fastlane**](https://fastlane.tools/): According to the official website, Fastlane is an open-source platform aimed at simplifying Android and iOS deployment. Fastlane lets you automate every aspect of your development and release workflow.
-*   [**Docker**](https://www.docker.com/): it is a containerization tool that allows a developer to package up an application with all of the parts it needs.
-*   [**Firebase App Distribution**](https://firebase.google.com/docs/app-distribution)**:** Firebase provides this tool which makes distributing your apps to trusted testers painless. By getting your apps onto testers’ devices quickly, you can get feedback early and often.
+**b. Install Firebase CLI to your machine.**  
+With the command-line interface we can make use of firebase’s commands to help us upload beta deployments. For this, make sure to follow Firebase’s CLI [documentation](https://firebase.google.com/docs/cli).
 
-Solution steps? … let’s go 🏃🏻‍♂️
-==================================
-
-Step 1: Configure GitLab
-------------------------
-
-GitLab one of the most popular CI/CD platforms. As I mentioned earlier, relying on GitLab for lots of reasons, the most important one is that it works as a CI/CD platform and our project versions control.
-
-a. Create an Android project, import the project to GitLab. You can check this [answer](https://stackoverflow.com/questions/16677931/connecting-to-gitlab-repositories-on-android-studio/46782522#46782522) on StackOverflow.com for further help.
-
-b. After pushing your project to GitLab, you should configure CI/CD for this project.
-
-![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*mwC5i4emW7-DJtd7UR2gLw.png)
-
-After pressing Setup CI/CD, **gitlab.yml** will be created. With this file, we can define the stages of the pipeline. For this project we are going to define the following 3 stages in the pipeline:
-
-1.  Build
-2.  Test
-3.  Deploy
-
-For now, let’s keep the file empty since we will be configuring our **gitlab.yml** file later.
-
-Step 2: Configure Fastlane
---------------------------
-
-We can use Fastlane as a continuous delivery tool both locally remotely. We will need to pick our APK distribution channel where our deployment will be uploaded (HockeyApp, Slack, Firebase distribution, etc…).
-
-a. Install Fastlane in your machine.
-
-> Explore [for Mac and Linux](https://docs.fastlane.tools/getting-started/android/setup/). (For Mac users, I recommend installation by Homebrew)
-> 
-> Explore [for Windows](https://blog.vertica.dk/2019/08/15/automated-android-deployment-with-fastlane-on-windows/)
-
-After installation, check everything is works fine by running:
+**c. Check Firebase is installed correctly.**
 
 ```sh
-$ fastlane env
+$ firebase --version
 ```
 
-b. Now, we can start Fastlane for our Android project. Just open the terminal tab in the android studio. Run the following:
+Step 4 : Fastfile
+-----------------
+
+Now, it’s time to write the steps that Fastlane would follow to upload our beta deployments to FirebaseAppDistruibution.
+
+```yaml
+desc "Submit a new beta build to Firebase App Distribution"  
+    lane : distribute do  
+        build\_android\_app(  
+          task: "assemble",  
+          build\_type: "debug"  
+        )        firebase\_app\_distribution(  
+            app: "replace this with app Id. Go to Firebase console ->     Project Overview -> Project Setting",  
+            testers: "example1@domain.com,     example2@domain.com",  
+            firebase\_cli\_token: "firebase token"        )      end
+```
+
+Fastlane contains **lanes** where a lane is a specific task in Fastlane.  
+For example, we have a lane called **distribute** that would build a debug APK, and using **firebase\_app\_distribution** it would upload the APK to the specific app in Firebase console.
+
+**app**: As mentioned earlier, go to Firebase console -> Project Overview -> Project Setting.
+
+**testers**: Define testers emails separated by “,”
+
+**firebase\_cli\_token**: This token is required for the distribution process. To get this token:
+
+*   Open your terminal
+*   run the following command
 
 ```sh
-$ fastlane init
+$ firebase login:ci
 ```
 
-c. Just enter your package name, and you can skip secret JSON file because we are interested in Beta deployments
+*   Open the link
+*   Choose the account where your project is rest
+*   Allow permissions for firebase
 
-![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*Cs3KxBhyES1Lsh3Cx8DXZg.jpeg)
+Now you can see the token generated for firebase CLI 🎉🚀
 
-d. After that, navigate to the created **Fastlane** directory in the root of the project that contains 2 files inside:  
-**Appfile**: This contains properties and meta-data about your app. Supports multi-flavors. (We aren’t interested in this)  
-**Fastfile**: This contains configuration what and how to automate your processes i.e build, upload, etc…  
-**Gemfile**: it used to define your dependencies on Fastlane.
+![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*MVH0Ogjn9XXEHVkov-DixA.jpeg)
 
-Remark: Don’t forget to force add and push the previously mentioned files.
+**Remark**: Please commit&push changes in Fastfile. 👌
 
-Now, Fastlane has been configured!
+Next, let’s run our new distribute lane from Fastlane with the following code.
 
-So have a break 🥐☕️ … and get ready for the majesty in [part 2](https://medium.com/@mustafakhaled290/devops-understanding-and-applying-ci-cd-pipeline-for-android-developers-part-2-ec5b063c01bc) 🤓✌️
+```sh
+$ fastlane distribute
+```
+
+You will probably see an error like the following:
+
+![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*bCW3Juv7vM1jHffSLiJ3Zw.png)
+
+Fortunately, the error is very descriptive. Fastlane doesn’t know what **firebase\_app\_distribution** is.
+
+To fix the above error, we should add firebase\_app\_distribution as a dependency for Fastlane (through **Gemfile**).  
+So from the Android Studio terminal, we can add the firebase\_app\_distribution plugin with:
+
+```sh
+$ fastlane add\_plugin firebase\_app\_distribution
+```
+
+**Remark:** New files would be generated within Fastlane directory of your Android project after adding this plugin, So make sure committing & pushing changes
+
+Now, everything is up and running, give another try
+
+```sh
+$ fastlane distribute
+```
+
+Wohooooo 🎉🎉 Great job, please check your emails listed in the fastfile to ensure that an email has been sent with an invitation.
+
+![](https://miro.medium.com/v2/resize:fit:640/format:webp/1*71wLt40HzZiqlBtSYRsA5A.gif)
+
+The next step is to include automation 🚀 using GitLab CI/CD pipeline. Our goal is to ensure that when we push to the origin branch (like develop or master) the pipeline should start its stages.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Step 5: Configure gitlab-ci.yml
+-------------------------------
+
+You can find gitlab-ci.yml in the root of your Android project.
+
+**What is the gitlab-ci.yml file?**  
+This is a file that defines the structure and order of the pipelines.  
+As we mentioned earlier, our pipeline consists of **3 stages**
+
+*   build
+*   test
+*   deploy
+
+```yaml
+image:     mustafakhaled/android-fastlane-firebase:1.0  
+  
+stages:  
+  - build  
+  - test  
+  - deploy  
+  
+lintDebug:  
+  stage: build  
+  script:  
+    - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint  
+  
+assembleDebug:  
+  stage: build  
+  script:  
+    - ./gradlew assembleDebug  
+  artifacts:  
+    paths:  
+    - app/build/outputs/  
+  
+debugTests:  
+  stage: test  
+  script:  
+    - ./gradlew -Pci --console=plain :app:testDebug  
+  
+deploy\_internal:  
+  
+  
+  stage: deploy  
+  
+  script:  
+    - fastlane distribute
+```
+
+Maybe seems like weird syntax, but don’t worry we will go through this file in detail 😄😁.
+
+```yaml
+image:     mustafakhaled/android-fastlane-firebase:1.0
+```
+
+As we mentioned in [part 1](https://medium.com/@mustafakhaled290/devops-understanding-and-applying-ci-cd-pipeline-for-android-developers-part-1-cdbeab424781),  
+**Docker:** it is a containerization tool that allows a developer to package up an application with all of the parts it needs.  
+I wrapped up all parts need for our application in a docker image, where we can use it in our continuous integration.You can check it out in [Docker Hub](https://hub.docker.com/repository/docker/mustafakhaled/android-fastlane-firebase).  
+This image contains basic tools that serve our main goal. it contains:
+
+*   Linux
+*   Android SDK
+*   Fastlane
+*   Firebase tools
+
+If you think about it, you would find this environment is like your machine environment where you were able to build and send your app to FirebaseAppDistrubution.
+
+```yaml
+stages:  
+  - build  
+  - test  
+  - deploy
+```
+
+In this part, we just define the stages of the pipeline.
+
+```yaml
+lintDebug:  
+  stage: build  
+  script:  
+    - ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint
+```
+
+This job is run on the build stage, it will run the **lint** check which helps find a poorly structured code that can impact the reliability and efficiency of your Android apps and make your code harder to maintain.
+
+```yaml
+assembleDebug:  
+  stage: build  
+  script:  
+    - ./gradlew assembleDebug  
+  artifacts:  
+    paths:  
+    - app/build/outputs/
+```
+
+This job is also on the build stage. It's responsible for building debug APK. The **artifacts** are a list of files and directories to attach to a job on success.
+
+```yaml
+debugTests:  
+  stage: test  
+  script:  
+    - ./gradlew -Pci --console=plain :app:testDebug
+```
+
+This job is on the test stage. It 's responsible for run unit tests if found in your projects.
+
+```yaml
+stage: deploy  
+  
+  script:  
+    - fastlane distribute
+```
+
+This job is on the deploy stage. It’s responsible to deploy your beta deployment to firebaseAppDistribution as we accomplished it locally(without CI).
+
+**Enhancement**: We want this pipeline to run only if I pushed to the **master** branch, not all branches. This could be done in gitlab-ci.yml by modifying the stage of deploy.
+
+```yaml
+stage: deploy  
+  
+  only:  
+    - master  
+  
+  script:  
+    - fastlane distribute
+```
+
+**Remark**: You can define any branch you want.
+
+The last step is to push your gitlab-ci.yml and your pipeline would start.
+
+Open GitLab, your pipeline should be like this:
+
+![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*2cZby7YRYBZMGNYJ2Pmu8g.png)
+
+Wait for the pipeline to complete.
+
+![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*SoKaQWfLnOxEGJtUd4bmWg.png)
+
+Time to celebrate! 🎉 Now you have automated your beta deployments to testers' emails with no hassle. 🚀
+
+Check the full repository on my [GitLab](https://gitlab.com/MustafaKhaled/gitlab-cicd-fastlane-firebaseappdistribution)
+
+For any feedback or questions, please comment below.
+
+You can also reach me out through:
+
+*   Email: [mustafakhaledmustafa@outlook.com](mailto:mustafakhaledmustafa@outlook.com)
+*   [GitHub](https://github.com/MustafaKhaled)
+*   Twitter: [@mus\_khaled](https://twitter.com/Mus_Khaled)
