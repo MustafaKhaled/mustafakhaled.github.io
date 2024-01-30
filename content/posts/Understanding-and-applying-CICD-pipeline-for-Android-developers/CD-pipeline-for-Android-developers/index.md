@@ -1,19 +1,23 @@
 ---
 title: "Understanding and applying CI/CD pipeline for Android developers 🚀 — Part 1"
-date: 2023-11-30T16:33:50+01:00
+date: 2020-01-29T16:33:50+01:00
 draft: false
 
 slug: "Understanding-and-applying-CICD-pipeline-for-Android-developers" 
-tags: [Kotlin, CI/CDE, GitLab]
+tags: [Kotlin, CI/CD, GitLab]
 categories: []
 ---
 
 Understanding and applying CI/CD pipeline for Android developers 🚀 — Part 1
 ====================================
 
+![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*mrsEGa3SvOr14dYCk4e2hQ.jpeg)
+
 As an Android Engineer, think about how much time you waste in deploying an APK for someone to test. ⌛️
 
 It may be done in many steps, compile your project, run unit test, start generating your .apk file, then upload it to a third party (e.g. firebase distribution, diawi, etc ..). After that, you have to notify the testers that your build is ready for testing.
+
+![](https://miro.medium.com/v2/resize:fit:640/format:webp/1*BX20IpPuOSvE0MMcQVct-Q.gif)
 
 A tiring repetitive process that wastes a set amount of time every single time you need to do it.
 
@@ -41,6 +45,8 @@ GitLab one of the most popular CI/CD platforms. As I mentioned earlier, relying 
 a. Create an Android project, import the project to GitLab. You can check this [answer](https://stackoverflow.com/questions/16677931/connecting-to-gitlab-repositories-on-android-studio/46782522#46782522) on StackOverflow.com for further help.
 
 b. After pushing your project to GitLab, you should configure CI/CD for this project.
+
+![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*mwC5i4emW7-DJtd7UR2gLw.png)
 
 After pressing Setup CI/CD, **gitlab.yml** will be created. With this file, we can define the stages of the pipeline. For this project we are going to define the following 3 stages in the pipeline:
 
@@ -74,6 +80,8 @@ $ fastlane init
 ```
 
 c. Just enter your package name, and you can skip secret JSON file because we are interested in Beta deployments
+
+![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*Cs3KxBhyES1Lsh3Cx8DXZg.jpeg)
 
 d. After that, navigate to the created **Fastlane** directory in the root of the project that contains 2 files inside:  
 **Appfile**: This contains properties and meta-data about your app. Supports multi-flavors. (We aren’t interested in this)  
