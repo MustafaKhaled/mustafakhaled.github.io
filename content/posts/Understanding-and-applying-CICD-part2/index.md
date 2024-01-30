@@ -13,12 +13,12 @@ Understanding and applying CI/CD pipeline for Android developers 🚀 — Part 2
 
 ![](https://miro.medium.com/v2/resize:fit:720/format:webp/1*mrsEGa3SvOr14dYCk4e2hQ.jpeg)
 
-In [part 1](https://medium.com/@mustafakhaled290/devops-understanding-and-applying-ci-cd-pipeline-for-android-developers-part-1-cdbeab424781) we managed to configure GitLab and Fastlane. Following next, we will configure our Continuous Deployment channel.
+In [part 1](https://mustafakhaled.me/posts/understanding-and-applying-cicd-pipeline-for-android-developers-part1/) we managed to configure GitLab and Fastlane. Following next, we will configure our Continuous Deployment channel.
 
 Step 3 : Configure FirebaseAppDistribution (Our CD Channel)
 -----------------------------------------------------------
 
-As we mentioned in [part 1](https://medium.com/@mustafakhaled290/devops-understanding-and-applying-ci-cd-pipeline-for-android-developers-part-1-cdbeab424781), FirebaseAppDistribution is a tool provided by Firebase where you can upload your beta .apk files.
+As we mentioned in [part 1](https://mustafakhaled.me/posts/understanding-and-applying-cicd-pipeline-for-android-developers-part1/), FirebaseAppDistribution is a tool provided by Firebase where you can upload your beta .apk files.
 
 You can find many posts that use Slack channels as their CD channel. In my opinion, this isn’t a perfect channel because it’s plan limitation. Their free plan has storage of 4 GB for all channels within the workspace, which may limit your App APK files to be uploaded.
 
@@ -173,7 +173,7 @@ Maybe seems like weird syntax, but don’t worry we will go through this file in
 image:     mustafakhaled/android-fastlane-firebase:1.0
 ```
 
-As we mentioned in [part 1](https://medium.com/@mustafakhaled290/devops-understanding-and-applying-ci-cd-pipeline-for-android-developers-part-1-cdbeab424781),  
+As we mentioned in [part 1](https://www.mustafakhaled.me/posts/understanding-and-applying-cicd-pipeline-for-android-developers-part1/),  
 **Docker:** it is a containerization tool that allows a developer to package up an application with all of the parts it needs.  
 I wrapped up all parts need for our application in a docker image, where we can use it in our continuous integration.You can check it out in [Docker Hub](https://hub.docker.com/repository/docker/mustafakhaled/android-fastlane-firebase).  
 This image contains basic tools that serve our main goal. it contains:

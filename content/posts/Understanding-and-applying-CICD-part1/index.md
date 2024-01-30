@@ -92,4 +92,4 @@ Remark: Don’t forget to force add and push the previously mentioned files.
 
 Now, Fastlane has been configured!
 
-So have a break 🥐☕️ … and get ready for the majesty in [part 2](https://medium.com/@mustafakhaled290/devops-understanding-and-applying-ci-cd-pipeline-for-android-developers-part-2-ec5b063c01bc) 🤓✌️
+So have a break 🥐☕️ … and get ready for the majesty in [part 2](https://www.mustafakhaled.me/posts/understanding-and-applying-cicd-pipeline-for-android-developers-part2/) 🤓✌️
